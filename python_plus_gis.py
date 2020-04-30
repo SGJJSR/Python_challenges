@@ -43,15 +43,11 @@ createLineGeom([Point(2.2, 4.2), Point(7.2, -25.1), Point(9.26, -2.456)])
 # and then with Point -objects.
 
 def createPolyGeom(coords):
-#     if isinstance(coords, Point):
-#         print("ok")
-#         coords = list([p.x, p.y] for p in coords[p])
-    poly = Polygon(coords)
+    if all(isinstance(x, Point) for x in coords) is True:
+        print("ok")
+        poly = Polygon([[p.x, p.y] for p in coords])
+        print(poly)
+    else:    
+        poly = Polygon(coords)
     return(poly)
-
-#this one works
-createPolyGeom([(2.2, 4.2), (7.2, -25.1), (9.26, -2.456)])
-
-#this one doesn't - why?
-createPolyGeom([point1, point2, point3])
-TypeError: object of type 'Point' has no len() 
+     
