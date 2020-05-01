@@ -50,4 +50,57 @@ def createPolyGeom(coords):
     else:    
         poly = Polygon(coords)
     return(poly)
+
+##################Problem 3####################
+
+# One of the "classical" problems in GIS is the situation where you have a set of coordinates 
+# in a file and you need to get them into a map (or into a GIS-software). Python is a really 
+# handy tool to solve this problem as with Python it is basically possible to read data from 
+# any kind of input datafile (such as csv-, txt-, excel-, or gpx-files (gps data) or from different databases). 
+# So far, I haven't faced any kind of data or file that would be impossible to read with Python.
+
+# Thus, let's see how we can read data from a file and create Point -objects from them that can be saved 
+# e.g. as a new Shapefile (we will learn this next week). Our dataset travelTimes_2015_Helsinki.txt consist 
+# of travel times between specific locations in Helsinki Region. The first four rows of our data looks like this:
+
+#  from_id;to_id;fromid_toid;route_number;at;from_x;from_y;to_x;to_y;total_route_time;route_time;route_distance;route_total_lines
+#    5861326;5785640;5861326_5785640;1;08:10;24.9704379;60.3119173;24.8560344;60.399940599999994;125.0;99.0;22917.6;2.0
+#    5861326;5785641;5861326_5785641;1;08:10;24.9704379;60.3119173;24.8605682;60.4000135;123.0;102.0;23123.5;2.0
+#    5861326;5785642;5861326_5785642;1;08:10;24.9704379;60.3119173;24.865102;60.4000863;125.0;103.0;23241.3;2.0
+
+# Thus, we have many columns of data, but the few important ones are:
+
+# Column	Description
+# from_x	x-coordinate of the origin location (longitude)
+# from_y	y-coordinate of the origin location (latitude)
+# to_x	x-coordinate of the destination location (longitude)
+# to_y	y-coordinate of the destination location (latitude)
+# total_route_time	Travel time with public transportation at the route
      
+import pandas as pd
+
+helsinki_coord = pd.read_csv('C:\\Users\\stefa\\Documents\\Fortbildung privat\\Python\\helsinki.txt', sep=';')
+
+helsinki_sub= helsinki_coord[['from_x', 'from_y', 'to_x', 'to_y']]
+
+orig_points = []
+dest_point = []
+
+for index, rows in helsinki_sub.iterrows():
+    orig_points.append([Point(rows['from_x'], rows['from_y'])])
+
+orig_points
+#output:
+[<shapely.geometry.point.Point at 0x1bfc89d74c8>,
+ <shapely.geometry.point.Point at 0x1bfc8685cc8>,
+ <shapely.geometry.point.Point at 0x1bfc5cfc788>,
+ <shapely.geometry.point.Point at 0x1bfc7cc4e08>,
+ <shapely.geometry.point.Point at 0x1bfc89d7048>,
+ <shapely.geometry.point.Point at 0x1bfc89d76c8>,
+ <shapely.geometry.point.Point at 0x1bfc7993308>,
+ <shapely.geometry.point.Point at 0x1bfc89d7208>,
+ <shapely.geometry.point.Point at 0x1bfc89d7108>,
+ <shapely.geometry.point.Point at 0x1bfc89d9a48>,
+ ....]
+
+########### --> how can I see the actual points?
