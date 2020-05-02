@@ -103,4 +103,17 @@ orig_points
  <shapely.geometry.point.Point at 0x1bfc89d9a48>,
  ....]
 
-########### --> how can I see the actual points?
+########### --> how can I see the actual points? Do I actually need to? (also with respect to the next exercise)#############
+
+# Problem 4: Creating LineStrings that represent the movements (optional task for advanced students):
+# This is an optional extra task for those who likes to learn even more. Write your codes into the 
+# same file as in previous Problem (3).
+
+# Create a list called lines
+# Iterate over the origin and destination lists and create a Shapely LineString -object 
+# between the origin and destination point
+# Add that line into the lines -list.
+# Find out what is the average (Euclidian) distance of all the origin-destination LineStrings 
+# that we just created, and print it out.
+# To make things more reusable: write creation of the LineString and calculating the average 
+#     distance into dedicated functions and use them.
