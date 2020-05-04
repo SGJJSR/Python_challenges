@@ -117,3 +117,22 @@ orig_points
 # that we just created, and print it out.
 # To make things more reusable: write creation of the LineString and calculating the average 
 #     distance into dedicated functions and use them.
+
+lines = []
+def linestringing (a, b):
+    for p, pp in zip(orig_points, dest_points):        
+        i = (Point(p.x, pp.x))
+        #print(i)
+        j = (Point(p.y,pp.y))
+        #print(j)
+        line_help = LineString([i, j])
+        lines.append(line_help)
+        return(lines)
+  
+def avg_distance(linestring_list):
+    j = 0
+    for l in linestring_list:
+        i = l.length
+        j += i
+    avg_len = j/len(linestring_list)
+    return(avg_len)
