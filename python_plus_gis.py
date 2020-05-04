@@ -79,7 +79,8 @@ def createPolyGeom(coords):
      
 import pandas as pd
 
-helsinki_coord = pd.read_csv('C:\\Users\\stefa\\Documents\\Fortbildung privat\\Python\\helsinki.txt', sep=';')
+#helsinki_coord = pd.read_csv('C:\\Users\\stefa\\Documents\\Fortbildung privat\\Python\\helsinki.txt', sep=';')
+helsinki_coord = pd.read_csv('./helsinki.txt, sep= ';')
 
 helsinki_sub= helsinki_coord[['from_x', 'from_y', 'to_x', 'to_y']]
 
@@ -103,7 +104,7 @@ orig_points
 #  <shapely.geometry.point.Point at 0x1bfc89d9a48>,
 #  ....]
 
-########### --> how can I see the actual points? Do I actually need to? (also with respect to the next exercise)#############
+### I uploaded the txt file to my repository, I hope you can access it?
 
 # Problem 4: Creating LineStrings that represent the movements (optional task for advanced students):
 # This is an optional extra task for those who likes to learn even more. Write your codes into the 
