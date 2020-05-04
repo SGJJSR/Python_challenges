@@ -91,17 +91,17 @@ for index, rows in helsinki_sub.iterrows():
 
 orig_points
 #output:
-[<shapely.geometry.point.Point at 0x1bfc89d74c8>,
- <shapely.geometry.point.Point at 0x1bfc8685cc8>,
- <shapely.geometry.point.Point at 0x1bfc5cfc788>,
- <shapely.geometry.point.Point at 0x1bfc7cc4e08>,
- <shapely.geometry.point.Point at 0x1bfc89d7048>,
- <shapely.geometry.point.Point at 0x1bfc89d76c8>,
- <shapely.geometry.point.Point at 0x1bfc7993308>,
- <shapely.geometry.point.Point at 0x1bfc89d7208>,
- <shapely.geometry.point.Point at 0x1bfc89d7108>,
- <shapely.geometry.point.Point at 0x1bfc89d9a48>,
- ....]
+# [<shapely.geometry.point.Point at 0x1bfc89d74c8>,
+#  <shapely.geometry.point.Point at 0x1bfc8685cc8>,
+#  <shapely.geometry.point.Point at 0x1bfc5cfc788>,
+#  <shapely.geometry.point.Point at 0x1bfc7cc4e08>,
+#  <shapely.geometry.point.Point at 0x1bfc89d7048>,
+#  <shapely.geometry.point.Point at 0x1bfc89d76c8>,
+#  <shapely.geometry.point.Point at 0x1bfc7993308>,
+#  <shapely.geometry.point.Point at 0x1bfc89d7208>,
+#  <shapely.geometry.point.Point at 0x1bfc89d7108>,
+#  <shapely.geometry.point.Point at 0x1bfc89d9a48>,
+#  ....]
 
 ########### --> how can I see the actual points? Do I actually need to? (also with respect to the next exercise)#############
 
