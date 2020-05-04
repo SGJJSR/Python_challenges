@@ -127,12 +127,17 @@ def linestringing (a, b):
         #print(j)
         line_help = LineString([i, j])
         lines.append(line_help)
-        return(lines)
+    return(lines)
   
+# def avg_distance(linestring_list):
+#     j = 0
+#     for l in linestring_list:
+#         i = l.length
+#         j += i
+#     avg_len = j/len(linestring_list)
+#     return(avg_len)
+
 def avg_distance(linestring_list):
-    j = 0
-    for l in linestring_list:
-        i = l.length
-        j += i
-    avg_len = j/len(linestring_list)
+    y = [l.length for l in linestring_list]
+    avg_len = (sum(y))/len(y)
     return(avg_len)
