@@ -118,16 +118,31 @@ orig_points
 # To make things more reusable: write creation of the LineString and calculating the average 
 #     distance into dedicated functions and use them.
 
+# 1. solution
 lines = []
 def linestringing (a, b):
-    for p, pp in zip(orig_points, dest_points):        
-        i = (Point(p.x, pp.x))
-        #print(i)
-        j = (Point(p.y,pp.y))
-        #print(j)
+    i = [(p.x,p.y) for p in a]
+    j = [(p.x,p.y) for p in b]
+    #lines = [LineString([(((p.x , p.y),(pp.x, pp.y)) for p,pp in zip(a,b))])]        
+    for i,j in zip(a,b):
         line_help = LineString([i, j])
         lines.append(line_help)
     return(lines)
+
+#2. solution (list comprehension)
+
+def linestringing (a, b):
+    lines = [(LineString([(p1.x , p1.y),(p2.x, p2.y)])) for p1,p2 in zip(a,b)]        
+    return(lines)
+
+linestringing(orig_points, dest_points)
+len(lines)
+# 0
+
+help_line = linestringing(orig_points, dest_points)
+len(help_line)
+#14643
+
   
 # def avg_distance(linestring_list):
 #     j = 0
@@ -141,3 +156,9 @@ def avg_distance(linestring_list):
     y = [l.length for l in linestring_list]
     avg_len = (sum(y))/len(y)
     return(avg_len)
+
+avg_distance(lines)
+#division by zero
+
+avg_distance(help_line)
+#0.2150222482322716
