@@ -121,8 +121,12 @@ kruger_park['geometry'] = None
 from shapely.geometry import Polygon, Point, LineString
 
 # x = lon, y = lat
-for index, rows in kruger_park.iterrows():
-    kruger_park.loc[index, 'geometry'] = Point((kruger_park.loc[index, 'lon']), (kruger_park.loc[index, 'lat']))
+# This is WAY too slow. 
+#for index, rows in kruger_park.iterrows():
+#    kruger_park.loc[index, 'geometry'] = Point((kruger_park.loc[index, 'lon']), (kruger_park.loc[index, 'lat']))
+
+# this is a faster way of doing it. Not sure if it's needed. I'll review that later.
+kruger_park['geometry'] = [Point(x, y) for x,y in kruger_park[['lat', 'lon']].values]
 kruger_park
 
 # Convert that DataFrame into a GeoDataFrame, see hints
@@ -132,6 +136,7 @@ from fiona.crs import from_epsg
 
 
 # Update the CRS for coordinate system as WGS84 (i.e. epsg code: 4326)
+
 kruger_park = gpd.GeoDataFrame(kruger_park, geometry='geometry', crs=from_epsg(4326))
 
 # Save the data into a Shapefile called Kruger_posts.shp
