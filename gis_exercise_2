@@ -112,7 +112,7 @@ poly
 # Read the data into memory using Pandas
 import pandas as pd
 import numpy as np
-kruger_park = pd.read_csv('some_posts.txt', sep=',')
+kruger_park = pd.read_csv('data/some_posts.txt', sep=',')
 
 # Create an empty column called geometry where you will store shapely Point objects
 kruger_park['geometry'] = None
