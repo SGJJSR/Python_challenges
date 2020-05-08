@@ -147,7 +147,7 @@ kruger_park.to_file(outfp)
 kruger_park = gpd.read_file("Kruger_posts.shp")
 
 # Create a simple map of those points using a GIS software or using .plot() -funtion in Python. Save it to GitHub as png file.
-kruger_park_geo.plot(facecolor='blue')
+kruger_park.plot(facecolor='blue')
 
 plt.title("Social_media_in_Kruger_park")
 #Remove empty white space around the plot
@@ -164,7 +164,7 @@ plt.savefig("Kruger_park.png")
 
 # Reproject the data from WGS84 projection into EPSG:32735 -projection which stands for UTM Zone 35S 
 #     (UTM zone for South Africa) to transform the data into metric system.
-kruger_park_meters = gpd.GeoDataFrame(kruger_park_geo, geometry='geometry', crs=from_epsg(32735))
+kruger_park_meters = gpd.GeoDataFrame(kruger_park, geometry='geometry', crs=from_epsg(32735))
 
 # Group the data by userid 
 userid = kruger_park_meters.groupby(['userid'])
