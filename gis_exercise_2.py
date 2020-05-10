@@ -121,8 +121,12 @@ kruger_park['geometry'] = None
 from shapely.geometry import Polygon, Point, LineString
 
 # x = lon, y = lat
-for index, rows in kruger_park.iterrows():
-    kruger_park.loc[index, 'geometry'] = Point((kruger_park.loc[index, 'lon']), (kruger_park.loc[index, 'lat']))
+# This is WAY too slow. 
+#for index, rows in kruger_park.iterrows():
+#    kruger_park.loc[index, 'geometry'] = Point((kruger_park.loc[index, 'lon']), (kruger_park.loc[index, 'lat']))
+
+# this is a faster way of doing it. Not sure if it's needed. I'll review that later.
+kruger_park['geometry'] = [Point(x, y) for x,y in kruger_park[['lat', 'lon']].values]
 kruger_park
 
 # Convert that DataFrame into a GeoDataFrame, see hints
@@ -132,6 +136,7 @@ from fiona.crs import from_epsg
 
 
 # Update the CRS for coordinate system as WGS84 (i.e. epsg code: 4326)
+
 kruger_park = gpd.GeoDataFrame(kruger_park, geometry='geometry', crs=from_epsg(4326))
 
 # Save the data into a Shapefile called Kruger_posts.shp
@@ -142,7 +147,7 @@ kruger_park.to_file(outfp)
 kruger_park = gpd.read_file("Kruger_posts.shp")
 
 # Create a simple map of those points using a GIS software or using .plot() -funtion in Python. Save it to GitHub as png file.
-kruger_park_geo.plot(facecolor='blue')
+kruger_park.plot(facecolor='blue')
 
 plt.title("Social_media_in_Kruger_park")
 #Remove empty white space around the plot
@@ -159,7 +164,7 @@ plt.savefig("Kruger_park.png")
 
 # Reproject the data from WGS84 projection into EPSG:32735 -projection which stands for UTM Zone 35S 
 #     (UTM zone for South Africa) to transform the data into metric system.
-kruger_park_meters = gpd.GeoDataFrame(kruger_park_geo, geometry='geometry', crs=from_epsg(32735))
+kruger_park_meters = gpd.GeoDataFrame(kruger_park, geometry='geometry', crs=from_epsg(32735))
 
 # Group the data by userid 
 userid = kruger_park_meters.groupby(['userid'])
