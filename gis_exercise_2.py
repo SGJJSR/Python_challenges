@@ -19,14 +19,14 @@
 # Each step that you need to fill is marked with capital P -letter (P1 to P6).
 
 import os
-os.chdir("C:\\.\\Exercise_2")
+#os.chdir("C:\\.\\Exercise_2")
 
 import geopandas as gpd
 import shapely
 from shapely.geometry import Polygon, Point, LineString
 
 # X -coordinates 
-xcoords = [29.99671173095703, 31.58196258544922, 27.738052368164062, 26.50013542175293, 26.652359008789062, 25.921663284301758, 22.90027618408203, 23.257217407226562,
+xcoords = [29.99671173095703, 31.58196258544922, 27.738052368164062, 26.50013542175293, 26.652359008789062, 25.921663284301758, 2.90027618408203, 23.257217407226562,
            23.335693359375, 22.87444305419922, 23.08465003967285, 22.565473556518555, 21.452774047851562, 21.66388702392578, 21.065969467163086, 21.67659568786621,
            21.496871948242188, 22.339998245239258, 22.288192749023438, 24.539581298828125, 25.444232940673828, 25.303749084472656, 24.669166564941406, 24.689163208007812,
            24.174999237060547, 23.68471908569336, 24.000761032104492, 23.57332992553711, 23.76513671875, 23.430830001831055, 23.6597900390625, 20.580928802490234, 21.320831298828125,
@@ -66,7 +66,7 @@ geo.loc[0, 'geometry'] = poly
 # # P5. Save the GeoDataFrame into a new Shapefile called 'polygon.shp'
 # # --------------------------------------------------------------------
 # # Note: you do not need to define the coordinate reference system at this time
-outfp = r"C:\\Users\\stefa\\Documents\\Fortbildung privat\\Python\\GIS\\Data\\Exercise_2_Problem_1.shp"
+outfp = r"./outputs/results.Exercise_2_Problem_1.shp"
 
 # Write the data into that Shapefile
 geo.to_file(outfp)
@@ -112,7 +112,7 @@ poly
 # Read the data into memory using Pandas
 import pandas as pd
 import numpy as np
-kruger_park = pd.read_csv('some_posts.txt', sep=',')
+kruger_park = pd.read_csv('data/some_posts.txt', sep=',')
 
 # Create an empty column called geometry where you will store shapely Point objects
 kruger_park['geometry'] = None
@@ -138,7 +138,7 @@ kruger_park = gpd.GeoDataFrame(kruger_park, geometry='geometry', crs=from_epsg(4
 outfp = r"Kruger_posts.shp"
 kruger_park.to_file(outfp)
 
-****************loading data again:
+# ****************loading data again:
 kruger_park = gpd.read_file("Kruger_posts.shp")
 
 # Create a simple map of those points using a GIS software or using .plot() -funtion in Python. Save it to GitHub as png file.
@@ -180,9 +180,9 @@ userid2 = kruger_park_meters.groupby(['userid', 'timestamp'])
 # but I can't seem to make it work on my code (error values always tell me to use the .apply method but that didn't work out as well..
 # Also, I have no idea how to prodocue linestrings with the subgroups. My best guess was somethin along the line like:
 
-userid2["linestring"] = userid2.groupby(level=0).apply(
-     LineString(Points[level=1]
-)
+#userid2["linestring"] = userid2.groupby(level=0).apply(
+#     LineString(Points[level=1])
+#)
 
 # but honestly, I am at a complete loss here.
 
