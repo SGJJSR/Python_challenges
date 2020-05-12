@@ -178,7 +178,19 @@ movements= gpd.GeoDataFrame()
 # hyperlink @sort: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.sort_values.html
 
 # I know I could sort the dataframe by user and timestamp at the same time, like this:
-userid2 = kruger_park_meters.groupby(['userid', 'timestamp'])
+km = kruger_park_meters
+by_user_and_time = km.sort_values(by=['userid', 'timestamp'])
+groups = by_user_and_time.groupby('userid', sort=True)
+
+def calculate_distance(rows):
+    if len(rows.geometry)>1:
+        return LineString(list(rows.geometry)).length
+    else:
+        return 0
+
+distance_travelled = groups.apply(calculate_distance)
+
+print(distance_travelled)
 
 ## However, it looks like I should first group by userid and then group by timestamp within these subgroups.
 ## I have seen some posts that talk about this e.g. https://stackoverflow.com/questions/27842613/pandas-groupby-sort-within-groups
