@@ -182,6 +182,7 @@ km = kruger_park_meters
 by_user_and_time = km.sort_values(by=['userid', 'timestamp'])
 groups = by_user_and_time.groupby('userid', sort=True)
 
+# create LineString objects based on the points
 def calculate_distance(rows):
     if len(rows.geometry)>1:
         return LineString(list(rows.geometry)).length
@@ -192,32 +193,75 @@ distance_travelled = groups.apply(calculate_distance)
 
 print(distance_travelled)
 
-## However, it looks like I should first group by userid and then group by timestamp within these subgroups.
-## I have seen some posts that talk about this e.g. https://stackoverflow.com/questions/27842613/pandas-groupby-sort-within-groups
-# but I can't seem to make it work on my code (error values always tell me to use the .apply method but that didn't work out as well..
-# Also, I have no idea how to prodocue linestrings with the subgroups. My best guess was somethin along the line like:
 
-#userid2["linestring"] = userid2.groupby(level=0).apply(
-#     LineString(Points[level=1])
-#)
-
-# but honestly, I am at a complete loss here.
-
-
-# create LineString objects based on the points
 
 # add the geometry and the userid into the GeoDataFrame you created in the last step
 # hyperlink @add: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.append.html
 
+# I merged the grouped and distance_travelled information together
+
+# recasting groups to be a (geopandas) dataframe
+groups = groups.apply(lambda x: x)
+
+# converting distance_travelled to a pandas dataframe
+distance_df = distance_travelled.to_frame()
+
+# set up dataframe distance_df
+#name column
+distance_df.columns = ['distance']
+#reet index, so that userid is an independent column
+distance_df.reset_index(level=0, inplace=True)
+
+# convert do Geopandas Dataframe
+distance_df= gpd.GeoDataFrame(distance_df)
+
+print(distance_df)
+
+# merge grouped and distance_df into a dataframe called movements
+
+movements = distance_df.merge(groups, how='inner', on='userid')
+
+
 # Determine the CRS of the movements GeoDataFrame to EPSG:32735 (epsg code: 32735)
+movements.crs = "EPSG:32735"
 
 # Calculate the lenghts of the lines into a new column called distance in movements GeoDataFrame.
 
+# already done
+
 # Save the movements of into a Shapefile called Some_movements.shp
+outfp = r"C:\\Users\\stefa\\Documents\\Fortbildung privat\\Python\\GIS\\Data\\some_movements.shp"
+movements.to_file(outfp)
 
 # Questions
 # Write your answers below the questions. You should also print in your code the answers to the questions.
 
 # What was the shortest distance travelled in meters?
+l = []
+for index, rows in distance_df.iterrows():
+    #print(rows)
+    if rows['distance'] > 0:
+        l.append(rows)
+        #print(l)
+existing_distance = pd.DataFrame(l)
+
+# alternatively: iterrows over movements
+
+print("The smallest distance that is not zero is {0:.9f} meters, covered by the userid {1}"\
+      .format(existing_distance.loc[existing_distance['distance'].idxmin(), 'distance'],\
+              existing_distance.loc[existing_distance['distance'].idxmin(), 'userid']))
+
 # What was the mean distance travelled in meters?
+# no-distance users included:
+print("The average distance of all users is {0:.2f} meters".format(movements['distance'].mean()))
+# excluding no-distance users:
+print("The average distance of all users with distance > 0 is {0:.2f} meters".format(existing_distance['distance'].mean()))
+
+# the outputs here make no sense, since the mean of the user excluding the no-distance users is actually
+# lower than the overall mean. I do not know what went wrong, I have tested the code with simpler tables
+# and it works as expected there
+
 # What was the maximum distance travelled in meters?
+print("The largest distance is {0:.2f} meters, covered by the userid {1}"\
+      .format(movements.loc[movements['distance'].idxmax(), 'distance'],\
+              movements.loc[movements['distance'].idxmax(), 'userid']))
